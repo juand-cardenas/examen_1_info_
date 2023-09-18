@@ -3,38 +3,70 @@ Aqui se va a poner el codigo desarrollado en tinkercad
 int pinData  = 10;
 int pinLatch = 12;
 int pinClock = 13;
+bool control = true;
 #define TIEMPO 300
 void ledWrite(int RLed, int GLed, int BLed,int fled);
+void imagen();
 
-
-void ledWrite(int BLed)//Verificacion a medias
+/*
+void ledWrite(int BLed)
 {
   shiftOut(pinData, pinClock, LSBFIRST, BLed);
   digitalWrite(pinLatch, 1);
   digitalWrite(pinLatch, 0);
 }
 
- /*
-  void verificacion()
-  {
-    for(int d = 128; d >= 1;d/2)
-      {
-        ledWrite(d);
-      }
-  }
-   */
 
+void verificacion()
+{
+   int d = 128;
+   for(int i = 0; d >= 1;i++)
+     {
+       ledWrite(d);
+       d = d/2;
+     }
+ }
+
+*/
 void setup()
 {
    pinMode(pinData, OUTPUT);
    pinMode(pinLatch, OUTPUT);
    pinMode(pinClock, OUTPUT);
+   Serial.begin(9600);
 }
 
 void loop()
 {
-  
-  
+ imagen();
 }
 
 void imagen()
+{
+  int option;
+  if(Serial.available())
+  { 
+    Serial.println("Ingrese una de las siguientes opciones (Si ingresa algo distinto se regresara al menu inicial)");
+    Serial.println("1.Patron 1|2.Patron 2|3.Patron 3|4.Patron 4|5.Verificacion|x.Regresar al menu inicial");
+  	option = Serial.read();
+    Serial.println(option);
+  }
+  
+  switch(option)
+  {
+    case 1: Serial.println("your mama");//patron1();
+    break;
+    case 2: //patron2();
+    break;
+    case 3: //patron3();
+    break;
+    case 4: //patron4();
+    break;
+    case 5: //Verificacion();
+    break;
+    default: 0;
+  }
+  
+  
+}
+  
