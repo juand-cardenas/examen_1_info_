@@ -1,0 +1,19 @@
+void apagado(){
+  digitalWrite(pinLatch,LOW);
+  int apagado[2]={};
+
+for(int i=0;i<1;i++){
+	apagado[i]=0;
+}
+
+digitalWrite(pinData, apagado[0]);    
+for(int i=0;i<8;i++){
+  for(int j=0;j<8;j++){
+    digitalWrite(pinClock,HIGH);
+    digitalWrite(pinClock, LOW);
+  	}
+  
+}
+  digitalWrite(pinLatch,HIGH);
+  
+}
