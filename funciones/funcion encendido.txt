@@ -1,47 +1,18 @@
-int pinData  = 10;
-int pinLatch = 12;
-int pinClock = 13;
-#define TIEMPO 300
-
-void setup(){
-   pinMode(pinData, OUTPUT);
-   pinMode(pinLatch, OUTPUT);
-   pinMode(pinClock, OUTPUT);
-  Serial.begin(9600);
-}
-
 void encendido(){
-Serial.println("ho,la");
-int encendido[8]={};
-int apagado [8]={};
-for(int i=0;i<7;i++){
+
+int encendido[2]={};
+
+for(int i=0;i<1;i++){
 	encendido[i]=1;
-	apagado[i]=0;
 }
- digitalWrite(pinData, HIGH);
-    digitalWrite(pinClock, HIGH);
-    digitalWrite(pinClock, LOW);
-  digitalWrite(pinData, LOW);
-    
-for(int i=0, cont=0;i<12;i++,cont++){
-	
 
-  digitalWrite(pinClock, HIGH);
+digitalWrite(pinData, encendido[0]);    
+for(int i=0;i<8;i++){
+  for(int j=0;j<8;j++){
+    digitalWrite(pinClock,HIGH);
     digitalWrite(pinClock, LOW);
-  
-  if(i==8){
-    digitalWrite(pinLatch, HIGH);}
-  if(i==10){digitalWrite(pinLatch, LOW);
-  }
+  	}
   
 }
-
-
-    
-}
-
-
-
-void loop(){
-  encendido();
+  digitalWrite(pinLatch,HIGH);
 }
