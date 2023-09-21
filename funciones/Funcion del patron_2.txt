@@ -1,39 +1,96 @@
 void patron_2(){
-int *puntero,on,posicion,salto,copy,limit_inf;
-puntero=new int[15];
-on=0;
-posicion=0;
+int *puntero_2,*puntero,posicion=1;
+puntero=new int[3];
+puntero_2=new int[3];
+
 for(int i=0;i<4;i++){
-    for(int j=0;j<4;j++){
-        if(j==on){
-            puntero[posicion]=1;
-        }
-        if(j!=on){
-            puntero[posicion]=0;
-        }
-        posicion++;
+    if(i==0){
+        puntero[i]=1;
     }
-    on++;
-}
-salto=3;
-int limit_sup;
-for(int i=0;i<16;i++){
-  digitalWrite(pinData,puntero[i]);
-  digitalWrite(pinClock,HIGH);
-  digitalWrite(pinClock, LOW);
-    if(salto==i){
-        copy=i;
-        limit_inf=i-3;
-        while(copy>=limit_inf){
-			digitalWrite(pinData,puntero[copy]);
-  			digitalWrite(pinClock,HIGH);
-  			digitalWrite(pinClock, LOW);
-            copy--;
-        }
-        salto=salto+4; 
-       
+    puntero_2[i]=0;
+    if(i==1){
+        puntero_2[i]=1;
     }
-    
+    if(i>0){
+        puntero[i]=0;
+    }
 }
-digitalWrite(pinLatch,HIGH);
+while(posicion>0){
+    for(int i=0;i<4;i++){
+  		digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+for(int a=0;a<=1;a++){
+    for(int i=3;i>=0;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+}
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    posicion=0;
+}
+ digitalWrite(pinLatch,HIGH);
+  delete [] puntero;
+  delete [] puntero_2; 
 }
