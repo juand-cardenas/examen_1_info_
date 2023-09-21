@@ -1,0 +1,45 @@
+void patron_1(){
+
+int *puntero,cantidad,cant_off,particion,cant_on,posicion;
+bool flag=true;
+puntero=new int[32];
+cantidad=8;
+posicion=0;
+for(int i=3;i>=0;i--){
+    int on=0;
+    flag=true;
+    cant_off=2*i;
+	cant_on=cantidad-(2*(i));
+	particion=cant_off/2;
+	for(int j=1;j<=8;j++){
+	    if(j<=cant_off/2){
+	        puntero[posicion]=0;
+	    }
+	    if(j>particion and flag==true){
+	        puntero[posicion]=1;
+	        on++;
+	        if(on>cant_on){
+	        flag=false;
+	        }
+	    }
+	    if(flag==false){
+	        puntero[posicion]=0;
+	    }
+	    posicion++;
+	}
+}
+for(int a=0;a<32;a++){
+  digitalWrite(pinData,puntero[a]);
+  
+  digitalWrite(pinClock,HIGH);
+  digitalWrite(pinClock, LOW);
+}
+ for(int a=31;a>=0;a--){
+  digitalWrite(pinData,puntero[a]);
+  
+  digitalWrite(pinClock,HIGH);
+  digitalWrite(pinClock, LOW);
+}
+  digitalWrite(pinLatch,HIGH);
+  
+}
