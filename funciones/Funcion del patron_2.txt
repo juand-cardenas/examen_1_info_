@@ -1,0 +1,39 @@
+void patron_2(){
+int *puntero,on,posicion,salto,copy,limit_inf;
+puntero=new int[15];
+on=0;
+posicion=0;
+for(int i=0;i<4;i++){
+    for(int j=0;j<4;j++){
+        if(j==on){
+            puntero[posicion]=1;
+        }
+        if(j!=on){
+            puntero[posicion]=0;
+        }
+        posicion++;
+    }
+    on++;
+}
+salto=3;
+int limit_sup;
+for(int i=0;i<16;i++){
+  digitalWrite(pinData,puntero[i]);
+  digitalWrite(pinClock,HIGH);
+  digitalWrite(pinClock, LOW);
+    if(salto==i){
+        copy=i;
+        limit_inf=i-3;
+        while(copy>=limit_inf){
+			digitalWrite(pinData,puntero[copy]);
+  			digitalWrite(pinClock,HIGH);
+  			digitalWrite(pinClock, LOW);
+            copy--;
+        }
+        salto=salto+4; 
+       
+    }
+    
+}
+digitalWrite(pinLatch,HIGH);
+}
