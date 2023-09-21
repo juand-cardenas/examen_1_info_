@@ -41,5 +41,6 @@ for(int a=0;a<32;a++){
   digitalWrite(pinClock, LOW);
 }
   digitalWrite(pinLatch,HIGH);
+  delete [] puntero;
   
 }
