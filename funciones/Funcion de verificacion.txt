@@ -1,0 +1,23 @@
+String msg="Ingrese el tiempo que haí entre el encendido y el apagado";
+String msg_1="cuantas veces se repite?";
+void verificacion(){
+int tiempo;
+ int veces;
+Serial.println(msg);
+  while(Serial.available()==0){
+  }
+ tiempo=Serial.parseInt();
+  if (tiempo!=0){
+Serial.println(msg_1);
+  while(Serial.available()==0){
+  }  
+  veces=Serial.parseInt();
+    for(veces;0<veces;veces--){
+    encendido();
+    delay(tiempo);
+    apagado();
+    delay(tiempo);
+    }
+  }
+  
+}
