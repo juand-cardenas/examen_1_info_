@@ -1,0 +1,18 @@
+void imagen_prueba(){
+  int duracion;
+String msg_2="cuanto tiempo de apagado y encendido?";
+  Serial.println(msg_2);
+  while(Serial.available()==0){
+  }
+ duracion=Serial.parseInt();
+  if (duracion!=0){
+   for(int i=3;0<i;i--){
+    digitalWrite(pinLatch,LOW);
+    patron_1();
+      delay(duracion);
+      apagado();
+      delay(duracion);
+    }
+  }
+  
+}
