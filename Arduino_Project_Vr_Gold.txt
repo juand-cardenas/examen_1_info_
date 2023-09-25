@@ -1,0 +1,489 @@
+Aqui se va a poner el codigo desarrollado en tinkercad
+-------------------------------------------------------------------------------------------------------------------------------
+
+int pinLatch = 12;
+int pinClock = 13;
+#define time 2500
+
+int imagen();
+void verificacion();
+void apagado();
+void encendido();
+void patron_1();
+void patron_2();
+void patron3();
+void patron4();
+void imagen_prueba();
+void Altern();
+
+void setup()
+{
+   pinMode(pinData, OUTPUT);
+   pinMode(pinLatch, OUTPUT);
+   pinMode(pinClock, OUTPUT);
+   Serial.begin(9600);
+}
+
+void loop()
+{
+ publik();
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void publik()
+/*Menu general del programa*/
+{
+ int option = 0;
+  Serial.println("Ingrese una de las siguientes opciones (Si ingresa algo distinto no sucedera nada)");
+  Serial.println("1.Menu Imagen|2.Imagen de prueba|3.Verficacion|4. Ver patrones alternados");
+  while(Serial.available()==0)
+  {}
+  option=Serial.parseInt();
+  
+  switch(option)
+  {
+    case 1: imagen();
+    break;
+    case 2: imagen_prueba();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    case 3: verificacion();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    case 4: Altern();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    default: Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+  }
+}
+//-----------------------------------------------------------------------------------------------------------------------
+int imagen()
+/*Este es el menu en el cual se generan los patrones, no tiene parametros, 
+retorna un "0" para indicar el regreso al anterior menu*/
+{
+  int option = 0;
+  Serial.println("Ingrese una de las siguientes opciones (Si ingresa algo distinto se regresara al menu inicial)");
+  Serial.println("1.Patron 1|2.Patron 2|3.Patron 3|4.Patron 4|x.Regresar al menu inicial");
+  while(Serial.available()==0)
+  {}
+  option=Serial.parseInt();
+  
+  switch(option)
+  {
+    case 1: patron_1();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    case 2: patron_2();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    case 3: patron3();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    case 4: patron4();
+    delay(time);
+    apagado();
+    Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+    break;
+    default: {Serial.println("-----------------------------------------------------------------------------------------------------------------------");
+              return 0;}
+    
+  }
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void verificacion()
+/*Es la funcion de verificacion, dentro se llama la funcion de encedido y apagado. 
+Consta de un for para realizar la verificacion las veces que el usurio lo necesite,
+ademas de los comentarios de salida y los posibles datos de entrada*/
+  
+{
+int tiempo;
+int veces;
+String msg="Ingrese el tiempo que hay entre el encendido y el apagado(En milisegundos)";
+String msg_1="Cuantas veces se repite?";
+Serial.println(msg);
+  while(Serial.available()==0){
+  }
+ tiempo=Serial.parseInt();
+  if (tiempo > 0){
+Serial.println(msg_1);
+  while(Serial.available()==0){
+  }  
+  veces=Serial.parseInt();
+    for(veces;0<veces;veces--){
+    encendido();
+    delay(tiempo);
+    apagado();
+    delay(tiempo);
+    }
+  }
+  
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void encendido()
+/*Enciende todos los leds de la matriz*/
+{
+digitalWrite(pinLatch,LOW);
+int encendido[2]={};
+
+for(int i=0;i<1;i++){
+	encendido[i]=1;
+}
+
+digitalWrite(pinData, encendido[0]);    
+for(int i=0;i<8;i++){
+  for(int j=0;j<8;j++){
+    digitalWrite(pinClock,HIGH);
+    digitalWrite(pinClock, LOW);
+  	}
+  
+}
+  digitalWrite(pinLatch,HIGH);
+  digitalWrite(pinLatch,LOW);
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void apagado()
+/*Apaga todos los leds de la matriz*/
+{
+  digitalWrite(pinLatch,LOW);
+  int apagado[2]={};
+
+for(int i=0;i<1;i++){
+	apagado[i]=0;
+}
+
+digitalWrite(pinData, apagado[0]);    
+for(int i=0;i<8;i++){
+  for(int j=0;j<8;j++){
+    digitalWrite(pinClock,HIGH);
+    digitalWrite(pinClock, LOW);
+  	}
+  
+}
+  digitalWrite(pinLatch,HIGH);
+  digitalWrite(pinLatch,LOW);
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void patron_1()
+/*Genera el patron 1*/
+{
+int *puntero,cantidad,cant_off,particion,cant_on,posicion;
+bool flag=true;
+puntero=new int[32];
+cantidad=8;
+posicion=0;
+for(int i=3;i>=0;i--){
+    int on=0;
+    flag=true;
+    cant_off=2*i;
+	cant_on=cantidad-(2*(i));
+	particion=cant_off/2;
+	for(int j=1;j<=8;j++){
+	    if(j<=cant_off/2){
+	        puntero[posicion]=0;
+	    }
+	    if(j>particion and flag==true){
+	        puntero[posicion]=1;
+	        on++;
+	        if(on>cant_on){
+	        flag=false;
+	        }
+	    }
+	    if(flag==false){
+	        puntero[posicion]=0;
+	    }
+	    posicion++;
+	}
+}
+for(int a=0;a<32;a++){
+  digitalWrite(pinData,puntero[a]);
+  
+  digitalWrite(pinClock,HIGH);
+  digitalWrite(pinClock, LOW);
+}
+ for(int a=31;a>=0;a--){
+  digitalWrite(pinData,puntero[a]);
+  
+  digitalWrite(pinClock,HIGH);
+  digitalWrite(pinClock, LOW);
+}
+  digitalWrite(pinLatch,HIGH);
+  digitalWrite(pinLatch,LOW);
+  delete [] puntero;
+  
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void patron_2()
+/*Genera el patron 2*/
+{
+int *puntero_2,*puntero,posicion=1;
+puntero=new int[3];
+puntero_2=new int[3];
+
+for(int i=0;i<4;i++){
+    if(i==0){
+        puntero[i]=1;
+    }
+    puntero_2[i]=0;
+    if(i==1){
+        puntero_2[i]=1;
+    }
+    if(i>0){
+        puntero[i]=0;
+    }
+}
+while(posicion>0){
+    for(int i=0;i<4;i++){
+  		digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+for(int a=0;a<=1;a++){
+    for(int i=3;i>=0;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+}
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero_2[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=0;i<4;i++){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    for(int i=3;0<=i;i--){
+        digitalWrite(pinData,puntero[i]);
+  		digitalWrite(pinClock,HIGH);
+  		digitalWrite(pinClock, LOW);
+    }
+    posicion=0;
+}
+ digitalWrite(pinLatch,HIGH);
+ digitalWrite(pinLatch,LOW);
+ delete [] puntero;
+ delete [] puntero_2; 
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void patron3()
+/*Genera el patron 3*/
+{
+  int Ln1Ptr3[8]={};
+  int Ln2Ptr3[8]={};
+  int* pnt =Ln1Ptr3; 
+ 
+  for(int posAr1=1;posAr1<=8;posAr1++) //Construccion linea 1
+  {
+    if(posAr1%3==0)
+    {*pnt = 0;}
+    else
+    {*pnt = 1;}
+    pnt++;
+  }
+  
+  pnt = &Ln2Ptr3[0];
+  
+  for(int posAr2=0;posAr2<8;posAr2++)//Construccion linea 2
+  {
+    if(posAr2%3==0)
+    {
+      *pnt = 0;
+    }
+    else
+    {
+      *pnt = 1;
+    }
+    pnt++;
+  }
+
+  for(int middle=0;middle<2;middle++)
+  {
+    for(int timeln = 0;timeln<2;timeln++)
+    {
+      pnt =&Ln1Ptr3[0];
+      for(int frstln = 0;frstln<8;frstln++)
+      {
+        digitalWrite(pinData,*pnt);
+        pnt++;
+        digitalWrite(pinClock,HIGH);
+        digitalWrite(pinClock, LOW);
+      }
+    }
+    
+    for(int timeln = 0;timeln<2;timeln++)
+    {
+      pnt = &Ln2Ptr3[0];
+      for(int sndln = 0;sndln<8;sndln++)
+      {
+        digitalWrite(pinData,*pnt);
+        pnt++;
+        digitalWrite(pinClock,HIGH);
+        digitalWrite(pinClock, LOW);
+      }
+    }
+  }
+  digitalWrite(pinLatch,HIGH);
+  digitalWrite(pinLatch,LOW);
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void patron4()
+/*Genera el patron 4*/
+{
+ int LnPtr4[8]={};
+ int* pnt;
+ int* pnt2; 
+  
+ for(int posAr = 0;posAr<8;posAr++)
+ {
+  if(posAr<4)
+  {LnPtr4[posAr]=1;}
+  else
+  {LnPtr4[posAr]=0;}
+ }
+  
+ pnt2 = &LnPtr4[3];
+ 
+ for(int Ln=0;Ln<5;Ln++)
+ {
+   pnt = &LnPtr4[0];
+   for(int ps= 0;ps<8;ps++)
+   {
+    digitalWrite(pinData,*pnt);
+    pnt++;
+    digitalWrite(pinClock,HIGH);
+    digitalWrite(pinClock, LOW);
+   }
+   if(Ln<3)
+   {
+   pnt = &LnPtr4[Ln];
+   *pnt = 0;
+   pnt++;
+   pnt2++;
+   *pnt2 =1;
+   }
+ }
+ 
+ for(int Ln=3;Ln>0;Ln--)
+ {
+   pnt = &LnPtr4[Ln];
+   pnt--;
+   *pnt = 1;
+   *pnt2 =0;
+   pnt2--;
+   pnt = &LnPtr4[0];
+   
+   for(int ps= 0;ps<8;ps++)
+   {
+    digitalWrite(pinData,*pnt);
+    pnt++;
+    digitalWrite(pinClock,HIGH);
+    digitalWrite(pinClock, LOW);
+   }
+  
+ } 
+ 
+ digitalWrite(pinLatch,HIGH);
+ digitalWrite(pinLatch,LOW);
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void imagen_prueba()
+  /*Utiliza uno de los patrones como una imagen de prueba, similar como la funcion de verificacion pero con un patrón*/
+{
+  int duracion;
+String msg_2="Cuanto tiempo de apagado y encendido?";
+  Serial.println(msg_2);
+  while(Serial.available()==0){
+  }
+ duracion=Serial.parseInt();
+  if (duracion!=0){
+   for(int i=3;0<i;i--){
+    digitalWrite(pinLatch,LOW);
+    patron_1();
+      delay(duracion);
+      apagado();
+      delay(duracion);
+    }
+  }
+  
+}
+//-----------------------------------------------------------------------------------------------------------------------
+void Altern()
+{
+  String msg="Ingrese el tiempo que hay entre el encendido y el apagado(En milisegundos)";
+  Serial.println(msg);
+  int tiempo;
+    while(Serial.available()==0){
+    }
+   tiempo=Serial.parseInt();
+    if (tiempo > 0)
+    {
+      patron_1();
+      delay(tiempo);
+      apagado();
+      patron_2();
+      delay(tiempo);
+      apagado();
+      patron3();
+      delay(tiempo);
+      apagado();
+      patron4();
+    }
+}
