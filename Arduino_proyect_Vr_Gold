@@ -5,7 +5,7 @@ int pinLatch = 12;
 int pinClock = 13;
 #define time 2500
 
-void imagen();
+int imagen();
 void verificacion();
 void apagado();
 void encendido();
